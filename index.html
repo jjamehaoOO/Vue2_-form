@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+</head>
+<body>  
+<!-- 收集表單數據:
+   若:<input type="text"/> 則v-model收集的是value值 用戶輸入的就是value值
+   若:<input type="radio"/> 則v-model收集的是value值 且要給標籤配置是value值
+   若:<input type="checkbox"/>
+       1.沒有配置input的value屬性 那麼收集的就是checked ( 勾選 或 為勾選 是布爾值)
+       2.配置input的value屬性:
+         (1)v-model的初始值是非數組 那麼收集的就是checked( 勾選 或 為勾選 是布爾值)
+         (2)v-model的初始值是數組 那麼收集的就是value組成的數組
+       備註:v-model的三個修飾符:
+           lazy:失去焦點再收集數據
+           number:輸入字符串轉為有效的數字
+           trim:輸入字尾空格過濾 -->
+
+<div id="root">
+    <form @submit.prevent="demo">
+        帳號:<input type="text" v-model.trim="account"> <br/>
+        <!-- v-model.trim去除前後的東西 像是你前後輸入空白鍵 就不會收集到空白 -->
+        密碼:<input type="password" v-model="password"><br/> 
+        年齡:<input type="number" v-model.number="age"><br/> 
+        <!-- //v-model.number是為了轉型 不用的話type="number"效果會無法出來 type="number"效果是只能輸入數字 -->
+        性別:
+        男<input type="radio" name="sex" v-model="sex" value="male">   <!-- //name="sex"可讓點男的時候 女也不會亮 -->
+        女<input type="radio" name="sex" v-model="sex" value="female"><br/> 
+        <!-- v-model設計是為了value 但男跟女沒有value 所以要設定 value才能夠綁到 -->
+        愛好:
+        學習<input type="checkbox"  v-model="hobby" value="study">
+        打遊戲<input type="checkbox" v-model="hobby" value="game">
+        吃飯<input type="checkbox" v-model="hobby" value="eat"><br/>
+        所屬校區
+        <select  v-model="city">
+            <option value="">請選擇校區</option>
+            <option value="south" >south</option>
+            <option value="north" >north</option>
+
+        </select><br/>
+        其他信息:
+        <textarea v-model.lazy="other"></textarea><br/>
+        <!-- v-model.lazy 代表失去焦點 你點下一個東西 等他聚焦之後 東西就能再收集到 -->
+        <input type="radio" name="checkbox" value="agree">
+        閱讀並接受<a href="https://tw.yahoo.com/">用戶協議</a>
+        <button>提交</button>
+    </form>
+
+</body>
+<script>
+    let vm = new Vue({
+        el:'#root',
+        data:{
+           account:'',
+           password:'',
+           sex:'',
+           hobby:[],
+           city:'',
+           other:'',
+           agree:''
+        },
+        methods:{
+            demo(){
+
+            }
+        }
+
+    })
+</script>
+</html>
